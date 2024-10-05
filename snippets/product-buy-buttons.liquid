@@ -1,0 +1,107 @@
+   {%- if block.settings.show_payment_button and product.template_suffix != 'pre-order' -%}
+{{ form | payment_button }}
+{%- endif -%}
+
+<style>
+.shopify-payment-button__button--unbranded {
+    position: relative;
+    display: inline-block;
+    padding: 0 30px!important;
+    line-height: var(--alt-bot-qnt) !important;
+    text-align: center;
+    background: var(--primary-button-background);
+    color: var(--primary-button-text-color);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .25s ease-in-out,color .25s ease-in-out,box-shadow .25s ease-in-out;
+    border-radius: var(--borda-bot-qnt)!important;
+    margin-bottom: 27px;
+    margin-top: -9px;
+}
+  </style>
+ 
+ {% if settings.show_bandeiras %}
+
+<style>
+
+  @media(max-width:768px) {
+  .cartoes{
+    max-height: auto;
+    width: var(--bandeiras-w-mobile);
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }  
+  }
+
+  @media(min-width:769px) {
+   .cartoes{
+    max-height: auto;
+    width: var(--bandeiras-w-desktop);
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+  }
+  
+  .security__payment p {
+	color: #565656;
+	text-align: center;
+	margin: 10px auto 0;
+	font-size: var(--bandeiras-t-fonte);
+}
+</style>
+
+  
+<center style="
+    background: white;
+    border: 1px solid #f6f6f8;
+    border-radius: 6px;
+    padding: 2px;
+    margin-top: var(--margin-band-s);
+    margin-bottom: var(--margin-band-i);
+    box-shadow: 0px 5px 6px -5px #f6f6f8;"><div class="security__payment" style="margin: 5px 0px 8px;"><p style="padding: 0px 0px 0px 0px;background: #f6f6f8;margin-top: -6px;border-radius: 4px;"><i style="color: #3A2A2F;"></i> <b>{{ settings.titulo_bandeiras }}</b></p>
+    </div>
+      
+    <center><div class="payment-list2">
+
+
+{% if settings.mostrarbandeiras %}
+
+            {% if settings.show_usmaster_p %}<img class="cartoes" src="{{ 'us-master.svg' | asset_url }}" alt="Master">{% endif %}
+            {% if settings.show_usvisa_p %}<img class="cartoes" src="{{ 'us-visa.svg' | asset_url }}" alt="Visa">{% endif %}
+            {% if settings.show_usamex_p %}<img class="cartoes" src="{{ 'us-amex.svg' | asset_url }}" alt="Amex">{% endif %}
+            {% if settings.show_uspaypal_p %}<img class="cartoes" src="{{ 'us-paypal.svg' | asset_url }}" alt="paypal">{% endif %}
+            {% if settings.show_usapple_p %}<img class="cartoes" src="{{ 'us-apple.svg' | asset_url }}" alt="Applepay">{% endif %}
+            {% if settings.show_usamazon_p %}<img class="cartoes" src="{{ 'us-amazon.svg' | asset_url }}" alt="amazon">{% endif %}
+            {% if settings.show_usgoogle_p %}<img class="cartoes" src="{{ 'us-google.svg' | asset_url }}" alt="googlepay">{% endif %}
+            {% if settings.show_usdinners_p %}<img class="cartoes" src="{{ 'us-dinners.svg' | asset_url }}" alt="dinners">{% endif %}
+            {% if settings.show_usdiscovery_p %}<img class="cartoes" src="{{ 'us-discovery.svg' | asset_url }}" alt="discovery">{% endif %}
+            {% if settings.show_usshoppay_p %}<img class="cartoes" src="{{ 'us-shoppay.svg' | asset_url }}" alt="shoppay">{% endif %}
+     
+{% else %}
+   
+<p style="
+    font-size: 13px;
+    margin: 5px auto;
+    line-height: 20px;
+">{{ settings.frasepago }}</p>
+  
+{% endif %}
+  </div>   </center></center>
+
+{% endif %}
+
+{% if settings.show_frete1_depois %}
+ {% render 'frete1' %}
+{% endif %}
+
+{% if settings.show_garantia %}
+ 
+   <div class="bandeiras-background-top" style="margin-top: var(--margin-gar-s)!important;margin-bottom: var(--margin-gar-i); padding: 12px 15px 4px 15px; border-radius: 6px; background: #FAFAFA; display: flex;">
+ <div style="margin-right: 10px">
+   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="28" height="28" x="0" y="0" viewBox="0 0 20 20" style="enable-background:new 0 0 512 512;border-radius: 18px;padding: 4px;border: 1px solid var(--product-icon-return-color);" xml:space="preserve"><g><path d="M10 0 2 2.3v7.4c0 4.7 3.2 8.9 7.7 10.2l.3.1.3-.1c4.5-1.3 7.7-5.5 7.7-10.2V2.3zm6 9.7c0 3.7-2.5 7.1-6 8.2-3.5-1.1-6-4.5-6-8.2V3.8l6-1.7 6 1.7z" fill="var(--product-icon-return-color)" data-original="#000000"></path><path d="M7.4 8.4 6 9.8l3.3 3.3 4.6-4.7L12.5 7l-3.2 3.2z" fill="var(--product-icon-return-color)" data-original="#000000"></path></g></svg>
+  </div>  
+   <span style="margin-top: -5px; margin-bottom: 5px;"><div style="font-weight: 700;font-size: 14px;color: var(--product-return-color);">{{ settings.titulo_garantia }}</div><div style="font-size: 12px; line-height: 10px; color: #8f8f8f;">{{ settings.titulo_garantia2 }}</div><div style="font-size: 12px; color: #8f8f8f;">{{ settings.titulo_garantia3 }}</div>    </span>
+ </div>
+{% endif %}
+
+
