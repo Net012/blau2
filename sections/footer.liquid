@@ -1,0 +1,445 @@
+<div class="container-fluid color-line"></div>
+<footer class="footer" data-section-id="{{ section.id }}" data-section-type="footer" role="contentinfo">
+
+<div class="container">
+        <div class="footer__wrapper">
+          
+           {%- if section.blocks.size > 0 -%}
+        <div class="footer__block-list">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'text' -%}
+                <div class="footer__block-item footer__block-item--text" {{ block.shopify_attributes }}>
+                  <button class="footer__title heading h6" disabled aria-expanded="false" aria-controls="block-{{ block.id }}" data-action="toggle-collapsible">
+                    <span>{{ block.settings.title | escape }}</span>
+                    </button>
+
+                  <div id="block-{{ block.id }}" class="footer__collapsible">
+                    <div class="footer__collapsible-content">
+                      <div class="rte">
+                        {{ block.settings.content }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              {%- when 'links' -%}
+                {%- assign menu = linklists[block.settings.menu] -%}
+
+                {%- unless menu.empty? -%}
+                  <div class="footer__block-item footer__block-item--links" {{ block.shopify_attributes }}>
+                    <button class="footer__title heading h6" disabled aria-expanded="false" aria-controls="block-{{ block.id }}" data-action="toggle-collapsible">
+                      <span>{{ menu.title }}</span>
+                      
+                    </button>
+
+                    <div id="block-{{ block.id }}" class="footer__collapsible">
+                      <div class="footer__collapsible-content">
+                        <ul class="footer__linklist list--unstyled">
+                          {%- for link in menu.links -%}
+                            <li>
+                              <a href="{{ link.url }}" class="footer__link-item link">{{ link.title }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                {%- endunless -%}
+
+              {%- when 'newsletter' -%}
+                <div class="footer__block-item footer__block-item--newsletter"  {{ block.shopify_attributes }}>
+                  <p class="footer__title heading h6">{{ block.settings.title | escape }}</p>
+
+                  <div class="footer__newsletter-wrapper">
+                    {%- if block.settings.subheading != blank -%}
+                      <div class="footer__newsletter-text rte">{{ block.settings.subheading }}</div>
+                    {%- endif -%}
+
+                    {%- form 'customer', id: 'footer-newsletter', class: 'footer__newsletter-form' -%}
+                      {%- if form.posted_successfully? -%}
+                        <p class="alert alert--success alert--center">{{ 'footer.newsletter.success' | t }}</p>
+                      {%- else -%}
+                        {%- if form.errors -%}
+                          <p class="alert alert--error alert--center">{{ form.errors.messages['email'] }}</p>
+                        {%- endif -%}
+
+                        <input type="hidden" name="contact[tags]" value="newsletter">
+
+                        <div class="form__input-wrapper form__input-wrapper--labelled">
+                          {%- if settings.nl_alteravel -%}
+                          <input type="email" id="footer[contact][email]" name="contact[email]" class="form__field form__field--text" style="background: var(--nl-fundo);border:1px solid var(--nl-borda);" required="">
+                          <label for="footer[contact][email]" class="form__floating-label" style="color: var(--nl-texto) !important">{{ 'footer.newsletter.input' | t }}</label>
+                       {%- else -%}
+ <input type="email" id="footer[contact][email]" name="contact[email]" class="form__field form__field--text" required="">
+                          <label for="footer[contact][email]" class="form__floating-label" >{{ 'footer.newsletter.input' | t }}</label>
+                       
+
+                          {%- endif -%}
+                        </div>
+
+                        <button  type="submit" class="form__submit form__submit--tight button button--primary">{{ 'footer.newsletter.submit' | t }}</button>
+                      {%- endif -%}
+                    {%- endform -%}
+                  </div>
+                </div>
+               
+          {%- when 'Atendimento-Vision' -%}
+           <div class="footer__block-item footer__block-item--text" >
+                     <span class="footer__title heading h6" >{{ settings.atendimento-cliente }}</span>
+                  	<div class="footer__collapsible">
+                    <div class="footer__collapsible-content">
+
+                        <ul class="footer--links">
+                          	<li><i class="fa-solid fa-clock"></i> {{ settings.horario_loja }} </li>
+                          {% if settings.contato_loja != blank %}  <li><i class="fa-solid fa-phone"></i> <span class="highlight-white"> {{ settings.contato_loja }} </span> </li> {% endif %}{% comment %} Deixar como contato por causa do merchant. Se deixar como whatsapp as vezes não pega {% endcomment %}
+                           {% if settings.email_loja != blank %} <li><i class="fa-solid fa-envelope"></i> <span class="highlight-white">{{ settings.email_loja }}</span></li>{% endif %}
+                        </ul>
+
+              
+              {% if settings.mostrar_redes_footer %}
+                        <div class="separator-footer"></div>
+
+                        <div class="social-networks">
+                              <div class="t-normal" style="margin-top: -3px;">{{ settings.atendimento-redes }}</div>
+                {% if settings.show_insta_f  %} 
+                <a aria-label="Clique para ir para nossa página do instagram" href="{{ settings.url_insta_f }}" rel="noopener" target="_blank" class="icon-social" style="font-size: 18px;" alt="Instagram"><i class="fab fa-instagram"></i></a>
+     			{% endif %}	
+                {% if settings.show_face_f  %} 
+                <a aria-label="Clique para ir para nossa página do instagram" href="{{ settings.url_facebook_f }}" rel="noopener" target="_blank" class="icon-social" style="font-size: 18px;" alt="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+     			{% endif %}	
+                {% if settings.show_tiktok_f  %} 
+                <a aria-label="Clique para ir para nossa página do instagram" href="{{ settings.url_tiktok_f }}" rel="noopener" target="_blank" class="icon-social" style="font-size: 18px;" alt="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+     			{% endif %}	
+              {% if settings.show_youtube_f  %} 
+                <a aria-label="Clique para ir para nossa página do instagram" href="{{ settings.url_youtube_f }}" rel="noopener" target="_blank" class="icon-social" style="font-size: 18px;" alt="youtube"><i class="fa-brands fa-youtube"></i></a>
+     			{% endif %}
+              {% if settings.show_pinterest_f  %} 
+                <a aria-label="Clique para ir para nossa página do instagram" href="{{ settings.url_pinterest_f }}" rel="noopener" target="_blank" class="icon-social" style="font-size: 18px;" alt="pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+     			{% endif %}
+                  <br>
+                        </div>
+{% endif %}
+                      
+                    </div>
+            	 </div>
+          </div>
+          
+        
+{%- when 'Pagamento-Seguranca' -%}
+                <div class="footer__block-item footer__block-item--links">
+           
+              {% if settings.show_bandeirarodape %}
+                  <span class="footer__title heading h6" >{{ settings.formas-pagamento-texto }}</span>
+          
+             
+              			<div class="payment-box">
+
+                            {% if settings.show_usmaster_f %}<div class="payment-icon margin-l"><img data-src="{{ 'us-master.svg' | asset_url }}" width="50" height="25" class="fluid-i lazyload" alt="Visa" /></div>{% endif %}
+                           {% if settings.show_usvisa_f %} <div class="payment-icon margin--1"><img data-src="{{ 'us-visa.svg' | asset_url }}" width="50" height="25" class="fluid-i lazyload" alt="Dinners" /></div>{% endif %}
+                           {% if settings.show_usamex_f %} <div class="payment-icon margin--1"><img data-src="{{ 'us-amex.svg' | asset_url }}" width="50" height="25" class="fluid-i lazyload" alt="MasterCard" /></div>{% endif %}
+                            {% if settings.show_uspaypal_f %}<div class="payment-icon margin--1"><img data-src="{{ 'us-paypal.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="Hipercard" /></div>{% endif %}
+                          	{% if settings.show_usapple_f %}<div class="payment-icon margin--1"><img data-src="{{ 'us-apple.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="Auracard" /></div>{% endif %}
+                       
+                            {% if settings.show_usamazon_f %}<div class="payment-icon margin-l"><img data-src="{{ 'us-amazon.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="Elo" /></div>{% endif %}
+                           {% if settings.show_usgoogle_f %} <div class="payment-icon margin--1"><img data-src="{{ 'us-google.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="American Express" /></div>{% endif %}
+                          	{% if settings.show_usdinners_f %}<div class="payment-icon margin--1"><img data-src="{{ 'us-dinners.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="Discovercard" /></div>{% endif %}
+                            {% if settings.show_usdiscovery_f %}<div class="payment-icon margin--1"><img data-src="{{ 'us-discovery.svg' | asset_url }}"  width="50" height="25" class="fluid-i lazyload" alt="Boleto" /></div>{% endif %}
+                            {% if settings.show_usshoppay_f %}<div class="payment-icon margin--1"><img data-src="{{ 'us-shoppay.svg' | asset_url }}"  style="margin-top= 2px !important" width="50" height="25" class="fluid-i lazyload" alt="Pix" /></div>{% endif %}
+
+                        </div>
+                
+ <div class="separator-footer"></div>
+                  {% endif %}
+               {% if settings.show_lojaverificada %}
+             
+           
+            <div>
+            <div class="footer__collapsible-content">
+               <div class="footer__title heading h6" style="display:grid !important">{{ settings.loja-verificada-texto }}</div>
+                	<div class="selos-wrap">
+                          <a href="https://transparencyreport.google.com/safe-browsing/search?url={{ canonical_url }}"><div class="selo"><img data-src="{{ 'Selogoogle.svg' | asset_url }}" class="lazyload" width="100" height="40" alt="Selo do Google"></div></a>
+                      
+                          <a href="https:\/\/safeweb.norton.com\/report\/show?url={{ canonical_url }}"><div class="selo"><img data-src="{{ 'nortonlogo.svg' | asset_url }}" class="lazyload"  width="80"  height="35" alt="Selo do Norton"> </div></a>
+
+                      <a href="https://www.sslshopper.com/ssl-checker.html#hostname={{ canonical_url }}"><div class="selo" ><img data-src="{{ 'ssl-img.svg' | asset_url }}" class="lazyload" width="90" height="35" alt="SLL Seguro"> </div></a>
+                    </div>
+              </div>
+              </div>
+            {% endif %}
+           </div>
+                  
+{%- endcase -%}
+    {%- endfor -%}
+          </div> 
+             {%- endif -%}
+     <div class="informacaorodape">
+        <p>{{ settings.URL_loja }}<br>
+        © {{ settings.Nome_loja }} | {{ settings.endereco_loja }}
+      </p>
+    </div>
+      
+   
+  </div>
+
+{%- if section.settings.show_cookie_bar -%}
+    <div style="padding-left:15px; padding-right:15px">
+<div id="politica-cookies" class="politica-cookies">
+  <p>{{ section.settings.cookie_bar_content }}</p>
+  <button id="aceitar-cookies" class="botao-aceitar">{{ section.settings.cookie_aceitar }}</button>
+  <button id="recusar-cookies" class="botao-recusar">{{ section.settings.cookie_recusar }}</button>
+</div>
+</div>
+  
+    <style>
+   .politica-cookies {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--cookie-fundogeral);
+    color: var(--cookie-fontegeral);
+  padding: 10px;
+  text-align: center;
+  display: none;
+    font-size: var(--cookie-fonte);
+    z-index:9999;
+}
+
+.botao-aceitar,
+.botao-recusar {
+  font-weight: 600;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+  border-radius:7px;
+  width: 150px;
+}
+
+     
+@media screen and (max-width: 741px) {
+  .botao-aceitar,
+.botao-recusar {
+    width: 40% !important;
+  }
+}
+
+.botao-aceitar {
+  background-color: var(--cookie-aceitarfundo);
+  color: var(--cookie-aceitarfonte);
+}
+      
+.botao-recusar {
+  background-color: var(--cookie-recusarfundo);
+  color: var(--cookie-recusarfonte);
+}
+
+.politica-cookies p {
+  margin: 0;
+  padding: 5px;
+  padding-top: 0;
+}
+</style>
+
+{%- if section.settings.show_cookie_bar_per -%}
+  <style>
+     .politica-cookies {
+       display: block !important;
+   }
+  </style>
+  
+{%- endif -%}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var politicaCookies = document.getElementById("politica-cookies");
+  var aceitarCookies = document.getElementById("aceitar-cookies");
+  var recusarCookies = document.getElementById("recusar-cookies");
+
+  // Verifica se é a primeira visita do usuário
+  if (!localStorage.getItem("cookiesAceitos")) {
+    politicaCookies.style.display = "block";
+  }
+
+  // Botão de Aceitar Cookies
+  aceitarCookies.addEventListener("click", function () {
+    localStorage.setItem("cookiesAceitos", "true");
+    politicaCookies.style.display = "none";
+  });
+
+  // Botão de Recusar Cookies
+  recusarCookies.addEventListener("click", function () {
+    localStorage.setItem("cookiesAceitos", "false");
+    politicaCookies.style.display = "none";
+  });
+});
+</script>
+{%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Rodapé",
+  "settings": [
+    
+    {
+      "type": "header",
+      "content": "Seletor de idioma",
+      "info": "Para adicionar um idioma, vá para as suas [configurações de idiomas.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Mostrar seletor de idioma",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Seletor de moeda",
+      "info": "Para adicionar uma moeda, vá para as suas [configurações de pagamento.](/admin/settings/payments)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Mostrar seletor de moeda",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Barra de privacidade do cliente"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cookie_bar",
+      "label": "Mostrar barra de privacidade - Cookies",
+      "info": "Mude as cores em Configurações > Barra de privacidade. Obs: A barra de cookies é baseada na sua navegação, portanto faça todas as alterações de cores antes de clicar em algum dos botões pela primeira vez. Posteriormente para ver os resultados, acesse outro perfil do chrome.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cookie_bar_per",
+      "label": "Mostrar barra para personalização",
+      "info": "Ative esse recurso para ver a barra após clicar sem querer em um dos botões e não esteja mais vendo a barra no personalizar. Lembre-se de desativar essa função após personalizar sua barra",
+      "default": false
+    },
+        {
+      "type": "richtext",
+      "id": "cookie_bar_content",
+      "label": "Conteúdo",
+      "default": "<p>Acepto el tratamiento de mis datos de acuerdo con las condiciones establecidas en la política de privacidad.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cookie_aceitar",
+      "label": "Botão Aceitar",
+      "default": "Aceptar"
+    },
+     {
+      "type": "text",
+      "id": "cookie_recusar",
+      "label": "Botão Recusar",
+      "default": "Rechazar"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Texto",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Acerca de nuestra tienda"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Conteúdo",
+          "default": "<p>Utilice esta área de texto para informarles a sus clientes sobre su marca y visión. Puedes cambiarlo en el editor de temas.</p>"
+        }
+      ]
+    },
+
+{
+      "type": "Atendimento-Vision",
+      "name": "Atendimento-Vision",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Configure as informações em configuração do tema > Rodapé Vision"
+        }
+      ]
+},
+
+    {
+      "type": "Pagamento-Seguranca",
+      "name": "Pagamento e Segurança",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Configure as informações em configuração do tema > Rodapé Vision"
+        }
+      ]
+},
+    
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "info": "Esse menu não mostrará itens de menu suspensos."
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Os clientes que se inscreverem terão seus endereços de e-mail adicionados à lista de clientes que \"aceitam marketing\" [customer list](/admin/customers?query=&accepts_marketing=1)."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "subheading",
+          "label": "Subtítulo",
+          "default": "<p>Una breve oración que describe lo que alguien recibirá cuando se registre.</p>"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "text",
+        "settings": {}
+      },
+      {
+        "type": "links",
+        "settings": {
+          "menu": "rodapé"
+        }
+      },
+      {
+        "type": "newsletter",
+        "settings": {}
+      }
+    ]
+  }
+}
+{% endschema %}
